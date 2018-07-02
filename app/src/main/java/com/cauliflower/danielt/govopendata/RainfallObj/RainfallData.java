@@ -126,6 +126,8 @@ public class RainfallData {
     }
 
     public static class WeatherElement {
+        //高度
+        private double elev;
         //小時累積雨量
         private double rain;
         //10分鐘累積雨量
@@ -140,6 +142,10 @@ public class RainfallData {
         private double hour_24;
         //日累積雨量
         private double now;
+
+        public void setElev(double elev) {
+            this.elev = elev;
+        }
 
         public void setRain(double rain) {
             this.rain = rain;
@@ -167,6 +173,10 @@ public class RainfallData {
 
         public void setNow(double now) {
             this.now = now;
+        }
+
+        public double getElev() {
+            return elev;
         }
 
         public double getRain() {

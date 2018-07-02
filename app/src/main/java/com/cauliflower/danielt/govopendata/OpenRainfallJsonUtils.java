@@ -31,7 +31,7 @@ public class OpenRainfallJsonUtils {
     //測站名稱
     public static final String OWM_LOCATION_NAME = "locationName";
     //測站ID
-    public static final String OWM_STATION_ID = "stationID";
+    public static final String OWM_STATION_ID = "stationId";
     //觀測資料時間
     private static final String OWM_TIME = "time";
     private static final String OWM_OBS_TIME = "obsTime";
@@ -40,19 +40,21 @@ public class OpenRainfallJsonUtils {
     private static final String OWM_ELEMENT_NAME = "elementName";
     private static final String OWM_ELEMENT_VALUE = "elementValue";
 
-    //小時累積雨量
+    //高度，單位：公尺
+    private static final String OWM_ELEMENT_NAME_ELEV = "ELEV";
+    //小時累積雨量，單位：毫米
     private static final String OWM_ELEMENT_NAME_RAIN = "RAIN";
-    //10分鐘累積雨量
+    //10分鐘累積雨量，單位：毫米
     private static final String OWM_ELEMENT_NAME_MIN_10 = "MIN_10";
-    //3小時累積雨量
+    //3小時累積雨量，單位：毫米
     private static final String OWM_ELEMENT_NAME_HOUR_3 = "HOUR_3";
-    //6小時累積雨量
+    //6小時累積雨量，單位：毫米
     private static final String OWM_ELEMENT_NAME_HOUR_6 = "HOUR_6";
-    //12小時累積雨量
+    //12小時累積雨量，單位：毫米
     private static final String OWM_ELEMENT_NAME_HOUR_12 = "HOUR_12";
-    //24小時累積雨量
+    //24小時累積雨量，單位：毫米
     private static final String OWM_ELEMENT_NAME_HOUR_24 = "HOUR_24";
-    //日累積雨量
+    //日累積雨量，單位：毫米
     private static final String OWM_ELEMENT_NAME_NOW = "NOW";
 
     private static final String OWM_PARAMETER = "parameter";
@@ -113,11 +115,17 @@ public class OpenRainfallJsonUtils {
                             JSONObject timeObject = locationObject.getJSONObject(OWM_TIME);
                             String obsTime = timeObject.getString(OWM_OBS_TIME);
                             time.setObsTime(obsTime);
+                            rainfallData.setTime(time);
 
                             JSONArray weatherElementArray = locationObject.getJSONArray(OWM_WEATHER_ELEMENT);
-                            for (int j = 0; j <= weatherElementArray.length(); j++) {
+                            for (int j = 0; j <= weatherElementArray.length() - 1; j++) {
                                 JSONObject weatherElementObject = weatherElementArray.getJSONObject(j);
                                 switch (weatherElementObject.getString(OWM_ELEMENT_NAME)) {
+                                    case OWM_ELEMENT_NAME_ELEV:{
+                                        double elev = weatherElementObject.getDouble(OWM_ELEMENT_VALUE);
+                                        weatherElement.setElev(elev);
+                                        break;
+                                    }
                                     case OWM_ELEMENT_NAME_RAIN: {
                                         double rain = weatherElementObject.getDouble(OWM_ELEMENT_VALUE);
                                         weatherElement.setRain(rain);
@@ -150,18 +158,18 @@ public class OpenRainfallJsonUtils {
                                     }
                                     case OWM_ELEMENT_NAME_NOW: {
                                         double now = weatherElementObject.getDouble(OWM_ELEMENT_VALUE);
-                                        weatherElement.setRain(now);
+                                        weatherElement.setNow(now);
                                         break;
                                     }
                                     default: {
-                                        Log.i(TAG, "No element in weatherElement jsonArray");
+                                        Log.i(TAG, "Undefined element in weatherElement jsonArray");
                                     }
                                 }
                             }
                             rainfallData.setWeatherElement(weatherElement);
 
                             JSONArray parameterArray = locationObject.getJSONArray(OWM_PARAMETER);
-                            for (int j = 0; j <= parameterArray.length(); j++) {
+                            for (int j = 0; j <= parameterArray.length() - 1; j++) {
                                 JSONObject parameterObject = parameterArray.getJSONObject(j);
                                 switch (parameterObject.getString(OWM_PARAMETER_NAME)) {
                                     case OWM_PARAMETER_NAME_CITY: {
@@ -190,7 +198,7 @@ public class OpenRainfallJsonUtils {
                                         break;
                                     }
                                     default: {
-                                        Log.i(TAG, "No parameter in parameter jsonArray");
+                                        Log.i(TAG, "Undefined parameter in parameter jsonArray");
                                     }
                                 }
                             }

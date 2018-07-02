@@ -23,6 +23,7 @@ public class SyncRainfallService extends IntentService {
         try {
             String response = NetworkUtils.getHttpResponseFromUrl(url);
             Log.i(TAG, response);
+            OpenRainfallJsonUtils.getRainfallContentValuesFromJson(response);
 //            String json = NetworkUtils.getJson(SyncRainfallService.this);
 //            Log.i(TAG, json);
         } catch (IOException e) {

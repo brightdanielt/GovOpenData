@@ -76,8 +76,9 @@ public class NetworkUtils {
         Uri uri = Uri.parse(GET_CWB_OPENDATA_REST_BASE_URL).buildUpon()
                 .appendQueryParameter(AUTHORIZATION_KEY, AUTHORIZATION_VALUE)
                 .appendQueryParameter(FORMAT_KEY, FORMAT_VALUE_JSON)
-                .appendQueryParameter(LOCATION_NAME_PARAM, "福山")
-                .appendQueryParameter(ELEMENT_NAME_KEY, MIN_10_PARAM)
+//                .appendQueryParameter(LOCATION_NAME_PARAM, "福山")
+//                .appendQueryParameter(ELEMENT_NAME_KEY, MIN_10_PARAM)
+
 //                .appendQueryParameter(LIMIT_KEY,"1")
 //                .appendQueryParameter(TIME_FROM_KEY,"2018-07-02T06:00:00")
 //                .appendQueryParameter(TIME_TO_KEY,"2018-07-03T06:00:00")
