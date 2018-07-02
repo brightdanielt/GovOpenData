@@ -5,6 +5,7 @@ package com.cauliflower.danielt.govopendata.RainfallObj;
  * LocationName plays the rule of key value like database so there are
  * different locations for every Rainfall data.
  */
+
 public class RainfallData {
     //緯度
     private double lat;
