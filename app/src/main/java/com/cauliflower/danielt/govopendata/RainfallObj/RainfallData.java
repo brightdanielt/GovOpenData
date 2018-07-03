@@ -1,12 +1,16 @@
 package com.cauliflower.danielt.govopendata.RainfallObj;
 
+import android.os.Parcel;
+
+import java.io.Serializable;
+
 /**
  * A RainfallData contains all information of rainfall in somewhere.
- * LocationName plays the rule of key value like database so there are
+ * LocationName plays the rule of key like database so there are
  * different locations for every Rainfall data.
  */
 
-public class RainfallData {
+public class RainfallData implements Serializable {
     //緯度
     private double lat;
     //經度
@@ -114,7 +118,7 @@ public class RainfallData {
         return parameter;
     }
 
-    public static class Time {
+    public static class Time implements Serializable{
         private String obsTime;
 
         public void setObsTime(String obsTime) {
@@ -126,7 +130,7 @@ public class RainfallData {
         }
     }
 
-    public static class WeatherElement {
+    public static class WeatherElement implements Serializable{
         //高度
         private double elev;
         //小時累積雨量
@@ -209,7 +213,7 @@ public class RainfallData {
         }
     }
 
-    public static class Parameter {
+    public static class Parameter implements Serializable{
         private String city;
         private int citySN;
         private String town;

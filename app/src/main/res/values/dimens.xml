@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="small_margin">4dp</dimen>
+    <dimen name="medium_margin">16dp</dimen>
+    <dimen name="item_img_width">160dp</dimen>
+    <dimen name="item_img_height">160dp</dimen>
+</resources>
