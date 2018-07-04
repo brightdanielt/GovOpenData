@@ -1,39 +1,38 @@
 package com.cauliflower.danielt.govopendata.ui;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.text.method.KeyListener;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.ClientCertRequest;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
-import android.widget.TextView;
 
 import com.cauliflower.danielt.govopendata.R;
 import com.cauliflower.danielt.govopendata.utilities.NetworkUtils;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final String GOV_DATA_URL = "https://data.gov.tw/dataset/9177";
-    private EditText mEd_locationName;
-    private SeekBar mSkBar_limit;
-    EditText ed_limit;
-    private WebView mWebView_rainfall;
-    private Button btn_start;
+    private EditText mEdLocationName;
+    private SeekBar mSkBarLimit;
+    private EditText edLimit;
+    private WebView mWebViewRainfall;
+    private ProgressBar pgBarLoading;
+    private Button btnStart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,40 +53,53 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        //webView頁面切換
         int itemId = item.getItemId();
-        if (itemId == R.id.action_goBack && mWebView_rainfall.canGoBack()) {
-            mWebView_rainfall.goBack();
-        } else if (itemId == R.id.action_goForward && mWebView_rainfall.canGoForward()) {
-            mWebView_rainfall.goForward();
+        if (itemId == R.id.action_goBack && mWebViewRainfall.canGoBack()) {
+            mWebViewRainfall.goBack();
+        } else if (itemId == R.id.action_goForward && mWebViewRainfall.canGoForward()) {
+            mWebViewRainfall.goForward();
         }
         return false;
     }
 
     private void makeViewWork() {
-        mEd_locationName = findViewById(R.id.ed_locationName);
-        mSkBar_limit = findViewById(R.id.skBar_limit);
-        ed_limit = findViewById(R.id.ed_limit);
-        mWebView_rainfall = findViewById(R.id.webView_Rainfall);
-        btn_start = findViewById(R.id.btn_start);
+        mEdLocationName = findViewById(R.id.ed_locationName);
+        mSkBarLimit = findViewById(R.id.skBar_limit);
+        edLimit = findViewById(R.id.ed_limit);
+        mWebViewRainfall = findViewById(R.id.webView_Rainfall);
+        pgBarLoading = findViewById(R.id.pgBar_loading);
+        btnStart = findViewById(R.id.btn_start);
 
         //Set webView
-        WebSettings webSettings = mWebView_rainfall.getSettings();
+        WebSettings webSettings = mWebViewRainfall.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setDisplayZoomControls(true);
-        mWebView_rainfall.setWebViewClient(new WebViewClient() {
+
+        //在同一個開啟新頁面
+        mWebViewRainfall.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                pgBarLoading.setVisibility(View.VISIBLE);
+                super.onPageStarted(view, url, favicon);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                pgBarLoading.setVisibility(View.INVISIBLE);
+                super.onPageFinished(view, url);
+            }
+
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    view.loadUrl(request.getUrl().toString());
-                }
+                view.loadUrl(request.getUrl().toString());
                 return false;
             }
         });
-        mWebView_rainfall.canGoBack();
-        mWebView_rainfall.loadUrl(GOV_DATA_URL);
+        mWebViewRainfall.loadUrl(GOV_DATA_URL);
 
         //Sync seekBar about limit and EditText about limit
-        ed_limit.addTextChangedListener(new TextWatcher() {
+        edLimit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -101,20 +113,21 @@ public class MainActivity extends AppCompatActivity {
                 Log.i(TAG, "afterTextChanged");
                 //Update progress of seekBar
                 if (s.toString().trim().equals("")) {
-                    ed_limit.setText(String.valueOf(NetworkUtils.LIMIT_MIN));
-                    mSkBar_limit.setProgress(NetworkUtils.LIMIT_MIN);
+                    edLimit.setText(String.valueOf(NetworkUtils.LIMIT_MIN));
+                    mSkBarLimit.setProgress(NetworkUtils.LIMIT_MIN);
                 } else {
-                    mSkBar_limit.setProgress(Integer.valueOf(s.toString()));
+                    mSkBarLimit.setProgress(Integer.valueOf(s.toString()));
                 }
             }
         });
 
-        mSkBar_limit.setMax(NetworkUtils.LIMIT_MAX);
+        mSkBarLimit.setMax(NetworkUtils.LIMIT_MAX);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            mSkBar_limit.setMin(NetworkUtils.LIMIT_MIN);
+            mSkBarLimit.setMin(NetworkUtils.LIMIT_MIN);
         }
 
-        mSkBar_limit.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        //Sync seekBar about limit and EditText about limit
+        mSkBarLimit.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             }
@@ -125,15 +138,15 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                ed_limit.setText(String.valueOf(seekBar.getProgress()));
+                edLimit.setText(String.valueOf(seekBar.getProgress()));
             }
         });
 
-        btn_start.setOnClickListener(new View.OnClickListener() {
+        btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String locationName = mEd_locationName.getText().toString().trim();
-                String limit = ed_limit.getText().toString();
+                String locationName = mEdLocationName.getText().toString().trim();
+                String limit = edLimit.getText().toString();
                 Intent intent = new Intent(MainActivity.this, DisplayRainfallActivity.class);
                 intent.putExtra("locationName", locationName);
                 intent.putExtra("limit", limit);
