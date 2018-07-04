@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 /**
  * Get target URL and response from server.
- * */
+ */
 public class NetworkUtils {
     private static final String TAG = NetworkUtils.class.getSimpleName();
 
@@ -22,7 +22,7 @@ public class NetworkUtils {
     /**
      * Every time query rainfall data will query all of elementName and parameterName
      * User should not search rainfall data with query parameter :elementName,parameterName
-     * */
+     */
 
     private static final String GET_CWB_OPENDATA_REST_BASE_URL = "https://opendata.cwb.gov.tw/api/v1/rest/datastore/O-A0002-001";
 
@@ -163,18 +163,27 @@ public class NetworkUtils {
      */
     private static final String PARAMETER_NAME_KEY_ATTRIBUTE = "ATTRIBUTE";
 
-    static public URL getRainfallUrl() {
-        Uri uri = Uri.parse(GET_CWB_OPENDATA_REST_BASE_URL).buildUpon()
+    static public URL getRainfallUrl(String locationName, String limit) {
+        Uri.Builder builder = Uri.parse(GET_CWB_OPENDATA_REST_BASE_URL).buildUpon()
                 .appendQueryParameter(AUTHORIZATION_KEY, AUTHORIZATION_VALUE)
                 .appendQueryParameter(FORMAT_KEY, FORMAT_VALUE_JSON)
 //                .appendQueryParameter(ELEMENT_NAME_KEY,ELEMENT_VALUE_HOUR_24)
 //                .appendQueryParameter(ELEMENT_NAME_KEY, ELEMENT_VALUE_MIN_10)
-
-//                .appendQueryParameter(LOCATION_NAME_KEY, "")
+//                .appendQueryParameter(LOCATION_NAME_KEY, "台北")
 //                .appendQueryParameter(PARAMETER_NAME_KEY, PARAMETER_NAME_VALUE_CITY)
-                .appendQueryParameter(LIMIT_KEY, "7")
-                .build();
+//                .appendQueryParameter(LIMIT_KEY, "10")
+                ;
+        if (!(locationName.trim()).equals("")) {
+            builder.appendQueryParameter(LOCATION_NAME_KEY, locationName);
+        }
+        if (!(limit.trim()).equals("")) {
+            builder.appendQueryParameter(LIMIT_KEY, limit);
+        } else {
+            //In case of limit equals null , query 1 data at least.
+            builder.appendQueryParameter(LIMIT_KEY, String.valueOf(LIMIT_MIN));
+        }
         try {
+            Uri uri = builder.build();
             URL url = new URL(uri.toString());
             Log.v(TAG, "URL: " + url);
             return url;

@@ -19,13 +19,11 @@
             </intent-filter>
         </activity>
 
-        <service
-            android:name=".SyncRainfallService"
-            android:exported="false" />
-
-        <activity android:name=".ui.DisplayRainfallActivity"/>
+        <activity android:name=".ui.DisplayRainfallActivity" />
     </application>
 
 </manifest>
 
-<!--Todo : 建立查詢條件給使用者-->
+    <!--Todo 01: 建立查詢條件給使用者 (done)
+        Todo 02: 傳送查詢條件到指定頁面，進行查詢，最後顯示查詢結果於 RecyclerView(done)
+        -->

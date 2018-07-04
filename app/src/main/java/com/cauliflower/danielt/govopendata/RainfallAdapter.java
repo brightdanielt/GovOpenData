@@ -16,10 +16,10 @@ import java.util.List;
 
 public class RainfallAdapter extends RecyclerView.Adapter<RainfallAdapter.ViewHolder> {
 
-    final private List<RainfallData> mRainfallList = new ArrayList<>();
+    private List<RainfallData> mRainfallList = new ArrayList<>();
 
-    public RainfallAdapter(final List<RainfallData> rainfallDataList) {
-        this.mRainfallList.addAll(rainfallDataList);
+    public RainfallAdapter() {
+
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -94,5 +94,19 @@ public class RainfallAdapter extends RecyclerView.Adapter<RainfallAdapter.ViewHo
     @Override
     public int getItemCount() {
         return mRainfallList.size();
+    }
+
+    /**
+     * This method is called in DisplayRainfallActivity when a load is finished,
+     * as well as the Loader responsible for loading rainfall data is reset.
+     *
+     * When this method is called,we assume we have a completely new set of data,
+     * so we can call notifyDataSetChanged to tell the RecyclerView to update.
+     *
+     * @param data The list of rainfall data to use as RainfallAdapter's data source
+     */
+    public void swapData(List<RainfallData> data) {
+        mRainfallList = data;
+        notifyDataSetChanged();
     }
 }
