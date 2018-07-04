@@ -46,6 +46,23 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        new MenuInflater(MainActivity.this).inflate(R.menu.web_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == R.id.action_goBack && mWebView_rainfall.canGoBack()) {
+            mWebView_rainfall.goBack();
+        } else if (itemId == R.id.action_goForward && mWebView_rainfall.canGoForward()) {
+            mWebView_rainfall.goForward();
+        }
+        return false;
+    }
+
     private void makeViewWork() {
         mEd_locationName = findViewById(R.id.ed_locationName);
         mSkBar_limit = findViewById(R.id.skBar_limit);
