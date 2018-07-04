@@ -10,34 +10,47 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
+/**
+ * Get target URL and response from server.
+ * */
 public class NetworkUtils {
     private static final String TAG = NetworkUtils.class.getSimpleName();
 
     private NetworkUtils() {
     }
 
+    /**
+     * Every time query rainfall data will query all of elementName and parameterName
+     * User should not search rainfall data with query parameter :elementName,parameterName
+     * */
+
     private static final String GET_CWB_OPENDATA_REST_BASE_URL = "https://opendata.cwb.gov.tw/api/v1/rest/datastore/O-A0002-001";
+
     /**
      * Used as key of {@link Uri.Builder#appendQueryParameter(String, String)}
      */
     private static final String AUTHORIZATION_KEY = "Authorization";
+
     /**
      * The authorization code is applied from http://opendata.cwb.gov.tw/usages
      * <p>
      * Used as value of {@link Uri.Builder#appendQueryParameter(String, String)}
      */
     private static final String AUTHORIZATION_VALUE = "CWB-B45459B7-404B-4C83-A4D5-79F975CBC9D7";
+
     /**
      * The format we want http response
      * <p>
      * Used as key of {@link Uri.Builder#appendQueryParameter(String, String)}
      */
     private static final String FORMAT_KEY = "format";
+
     /**
      * Ask http response in JSON format.
      * We only handle JSON format in GovOpenData.
      */
     private static final String FORMAT_VALUE_JSON = "json";
+
     /**
      * Ask http response in XML format.
      * We do'nt handle XML in GovOpenData.
@@ -49,6 +62,8 @@ public class NetworkUtils {
      * The locations is a JSONObject
      */
     private static final String LIMIT_KEY = "limit";
+    public static final int LIMIT_MAX = 999;
+    public static final int LIMIT_MIN = 1;
 
     private static final String ELEMENT_NAME_KEY = "elementName";
 
@@ -152,11 +167,11 @@ public class NetworkUtils {
         Uri uri = Uri.parse(GET_CWB_OPENDATA_REST_BASE_URL).buildUpon()
                 .appendQueryParameter(AUTHORIZATION_KEY, AUTHORIZATION_VALUE)
                 .appendQueryParameter(FORMAT_KEY, FORMAT_VALUE_JSON)
-                .appendQueryParameter(ELEMENT_NAME_KEY,ELEMENT_VALUE_HOUR_24)
+//                .appendQueryParameter(ELEMENT_NAME_KEY,ELEMENT_VALUE_HOUR_24)
 //                .appendQueryParameter(ELEMENT_NAME_KEY, ELEMENT_VALUE_MIN_10)
 
-//                .appendQueryParameter(LOCATION_NAME_KEY, "福山")
-                .appendQueryParameter(PARAMETER_NAME_KEY, PARAMETER_NAME_VALUE_CITY)
+//                .appendQueryParameter(LOCATION_NAME_KEY, "")
+//                .appendQueryParameter(PARAMETER_NAME_KEY, PARAMETER_NAME_VALUE_CITY)
                 .appendQueryParameter(LIMIT_KEY, "7")
                 .build();
         try {

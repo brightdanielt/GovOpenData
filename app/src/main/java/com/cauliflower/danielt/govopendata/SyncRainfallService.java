@@ -2,20 +2,17 @@ package com.cauliflower.danielt.govopendata;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.cauliflower.danielt.govopendata.RainfallObj.RainfallData;
-import com.cauliflower.danielt.govopendata.UI.DisplayRainfallActivity;
+import com.cauliflower.danielt.govopendata.ui.DisplayRainfallActivity;
 import com.cauliflower.danielt.govopendata.utilities.NetworkUtils;
 import com.cauliflower.danielt.govopendata.utilities.OpenRainfallJsonUtils;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
@@ -27,7 +24,6 @@ public class SyncRainfallService extends IntentService {
     public SyncRainfallService() {
         super("SyncRainfallService");
     }
-
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
