@@ -32,7 +32,7 @@ public class MainActivity extends Activity {
     private EditText edLimit;
     private WebView mWebViewRainfall;
     private ProgressBar pgBarLoading;
-    private Button btnStart;
+    private Button mBtnStart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +66,7 @@ public class MainActivity extends Activity {
         edLimit = findViewById(R.id.ed_limit);
         mWebViewRainfall = findViewById(R.id.webView_Rainfall);
         pgBarLoading = findViewById(R.id.pgBar_loading);
-        btnStart = findViewById(R.id.btn_start);
+        mBtnStart = findViewById(R.id.btn_start);
 
         //Set webView
         WebSettings webSettings = mWebViewRainfall.getSettings();
@@ -139,7 +139,7 @@ public class MainActivity extends Activity {
             }
         });
 
-        btnStart.setOnClickListener(new View.OnClickListener() {
+        mBtnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String locationName = mEdLocationName.getText().toString().trim();
