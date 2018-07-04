@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/action_goBack"
+        android:icon="@android:drawable/arrow_up_float"
+        android:title="上一頁"
+        app:showAsAction="always"/>
+    <item android:id="@+id/action_goForward"
+        android:icon="@android:drawable/arrow_down_float"
+        android:title="下一頁"
+        app:showAsAction="always"/>
+</menu>
