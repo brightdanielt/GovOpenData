@@ -1,11 +1,8 @@
 package com.cauliflower.danielt.govopendata.ui;
 
 import android.app.Activity;
-import android.app.LoaderManager;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.content.Loader;
+import android.os.Handler;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,27 +25,31 @@ public class DisplayRainfallActivity extends Activity {
     private static final String TAG = DisplayRainfallActivity.class.getSimpleName();
     RecyclerView mRecyclerView_rainfall;
     private RainfallAdapter mRainfallAdapter;
-    private ProgressBar mProgrsddLoading;
+    private ProgressBar mProgressLoading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_rainfall);
 
-        mProgrsddLoading=findViewById(R.id.pgBar_loadingJson);
+        mProgressLoading = findViewById(R.id.pgBar_loadingJson);
         mRecyclerView_rainfall = findViewById(R.id.recyclerView_rainfall);
-        mRainfallAdapter = new RainfallAdapter();
+        mRainfallAdapter = new RainfallAdapter(DisplayRainfallActivity.this, new RainfallAdapter.ClickItem() {
+            @Override
+            public void scrollToPosition(int position) {
+//                mRecyclerView_rainfall.scrollToPosition(position);
+            }
+        });
         mRecyclerView_rainfall.setAdapter(mRainfallAdapter);
         mRecyclerView_rainfall.setLayoutManager(new LinearLayoutManager(DisplayRainfallActivity.this));
         //                recyclerView_rainfall.setHasFixedSize(true);
-
         new RainfallTask().execute();
     }
 
     class RainfallTask extends AsyncTask<Void, Integer, List<RainfallData>> {
         @Override
         protected void onPreExecute() {
-            mProgrsddLoading.setVisibility(View.VISIBLE);
+            mProgressLoading.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -80,8 +81,9 @@ public class DisplayRainfallActivity extends Activity {
         protected void onPostExecute(List<RainfallData> data) {
             if (data != null) {
                 mRainfallAdapter.swapData(data);
+//                mRecyclerView_rainfall.scrollToPosition(5);
             }
-            mProgrsddLoading.setVisibility(View.INVISIBLE);
+            mProgressLoading.setVisibility(View.INVISIBLE);
         }
     }
 }

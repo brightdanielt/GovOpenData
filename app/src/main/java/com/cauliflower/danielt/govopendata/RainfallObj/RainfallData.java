@@ -118,7 +118,7 @@ public class RainfallData implements Serializable {
         return parameter;
     }
 
-    public static class Time implements Serializable{
+    public static class Time implements Serializable {
         private String obsTime;
 
         public void setObsTime(String obsTime) {
@@ -130,7 +130,7 @@ public class RainfallData implements Serializable {
         }
     }
 
-    public static class WeatherElement implements Serializable{
+    public static class WeatherElement implements Serializable {
         //高度
         private double elev;
         //小時累積雨量
@@ -153,19 +153,35 @@ public class RainfallData implements Serializable {
         }
 
         public void setRain(double rain) {
-            this.rain = rain;
+            if (rain == -998) {
+                this.rain = 0;
+            }else{
+                this.rain = rain;
+            }
         }
 
         public void setMin_10(double min_10) {
-            this.min_10 = min_10;
+            if (min_10 == -998) {
+                this.min_10 = 0;
+            }else{
+                this.min_10 = min_10;
+            }
         }
 
         public void setHour_3(double hour_3) {
-            this.hour_3 = hour_3;
+            if (hour_3 == -998) {
+                this.hour_3 = 0;
+            }else{
+                this.hour_3 = hour_3;
+            }
         }
 
         public void setHour_6(double hour_6) {
-            this.hour_6 = hour_6;
+            if (hour_6 == -998) {
+                this.hour_6 = 0;
+            }else{
+                this.hour_6 = hour_6;
+            }
         }
 
         public void setHour_12(double hour_12) {
@@ -213,7 +229,7 @@ public class RainfallData implements Serializable {
         }
     }
 
-    public static class Parameter implements Serializable{
+    public static class Parameter implements Serializable {
         private String city;
         private int citySN;
         private String town;

@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">GovOpenData</string>
+
+    <!--Rainfall RecyclerView item-->
+    <string name="coordinate">座標: \t</string>
+    <string name="obsTime">觀測時間: \t</string>
+    <string name="elev">高度(公尺): \t</string>
+    <string name="accumulation">累積雨量:(毫米) \t</string>
+    <string name="now">本日: \t</string>
+    <string name="min_10">前10分鐘: \t</string>
+    <string name="hour_1">前1小時: \t</string>
+    <string name="hour_3">前3小時: \t</string>
+    <string name="hour_6">前6小時: \t</string>
+    <string name="hour_12">前12小時: \t</string>
+    <string name="hour_24">前24小時: \t</string>
+
 </resources>

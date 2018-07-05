@@ -2,6 +2,8 @@
 <resources>
     <dimen name="small_margin">4dp</dimen>
     <dimen name="medium_margin">16dp</dimen>
-    <dimen name="item_img_width">160dp</dimen>
-    <dimen name="item_img_height">160dp</dimen>
+    <dimen name="item_img_width">150dp</dimen>
+    <dimen name="item_img_height">60dp</dimen>
+    <dimen name="item_city_margin_top">50dp</dimen>
+    <dimen name="item_detail_margin_top">75dp</dimen>
 </resources>
