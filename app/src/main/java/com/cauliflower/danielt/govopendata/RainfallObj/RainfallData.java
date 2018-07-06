@@ -26,6 +26,7 @@ public class RainfallData implements Serializable {
     //    private String parameterName;
 //    private String parameterValue;
     private Time time;
+
     private WeatherElement weatherElement;
     private Parameter parameter;
 
@@ -119,6 +120,7 @@ public class RainfallData implements Serializable {
     }
 
     public static class Time implements Serializable {
+        //觀測時間
         private String obsTime;
 
         public void setObsTime(String obsTime) {
@@ -130,6 +132,10 @@ public class RainfallData implements Serializable {
         }
     }
 
+    /**
+     * To cooperate with JSON format response from server,
+     * the WeatherElement is a jsonArray so we create this class.
+     */
     public static class WeatherElement implements Serializable {
         //高度
         private double elev;
@@ -155,7 +161,7 @@ public class RainfallData implements Serializable {
         public void setRain(double rain) {
             if (rain == -998) {
                 this.rain = 0;
-            }else{
+            } else {
                 this.rain = rain;
             }
         }
@@ -163,7 +169,7 @@ public class RainfallData implements Serializable {
         public void setMin_10(double min_10) {
             if (min_10 == -998) {
                 this.min_10 = 0;
-            }else{
+            } else {
                 this.min_10 = min_10;
             }
         }
@@ -171,7 +177,7 @@ public class RainfallData implements Serializable {
         public void setHour_3(double hour_3) {
             if (hour_3 == -998) {
                 this.hour_3 = 0;
-            }else{
+            } else {
                 this.hour_3 = hour_3;
             }
         }
@@ -179,7 +185,7 @@ public class RainfallData implements Serializable {
         public void setHour_6(double hour_6) {
             if (hour_6 == -998) {
                 this.hour_6 = 0;
-            }else{
+            } else {
                 this.hour_6 = hour_6;
             }
         }
@@ -230,10 +236,15 @@ public class RainfallData implements Serializable {
     }
 
     public static class Parameter implements Serializable {
+        //城市名稱
         private String city;
+        //城市編號
         private int citySN;
+        //區域名稱
         private String town;
+        //區域編號
         private int townSN;
+        //觀測站類型
         private String attribute;
 
         public void setCity(String city) {

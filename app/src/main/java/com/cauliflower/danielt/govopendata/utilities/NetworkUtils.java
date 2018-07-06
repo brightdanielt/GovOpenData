@@ -19,11 +19,6 @@ public class NetworkUtils {
     private NetworkUtils() {
     }
 
-    /**
-     * Every time query rainfall data will query all of elementName and parameterName
-     * User should not search rainfall data with query parameter :elementName,parameterName
-     */
-
     private static final String GET_CWB_OPENDATA_REST_BASE_URL = "https://opendata.cwb.gov.tw/api/v1/rest/datastore/O-A0002-001";
 
     /**
@@ -163,6 +158,12 @@ public class NetworkUtils {
      */
     private static final String PARAMETER_NAME_KEY_ATTRIBUTE = "ATTRIBUTE";
 
+    /**
+     * Every time query rainfall data will query all of elementName and parameterName
+     * User should not search rainfall data with query parameter :elementName,parameterName
+     *
+     * @return URL built by qualification of query
+     */
     static public URL getRainfallUrl(String locationName, String limit) {
         Uri.Builder builder = Uri.parse(GET_CWB_OPENDATA_REST_BASE_URL).buildUpon()
                 .appendQueryParameter(AUTHORIZATION_KEY, AUTHORIZATION_VALUE)

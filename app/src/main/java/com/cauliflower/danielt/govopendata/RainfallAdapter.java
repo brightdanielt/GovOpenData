@@ -15,7 +15,6 @@ import com.cauliflower.danielt.govopendata.RainfallObj.RainfallData;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class RainfallAdapter extends RecyclerView.Adapter<RainfallAdapter.ViewHolder> {
 
@@ -129,9 +128,11 @@ public class RainfallAdapter extends RecyclerView.Adapter<RainfallAdapter.ViewHo
                 }
             }
         });
+        //Set visibility gone to prevent recyclerView reloading mistake
         holder.linearDetail.setVisibility(View.GONE);
         holder.locationName.setText(mRainfallList.get(position).getLocationName());
         holder.town_city.setText(mRainfallList.get(position).getParameter().getTown());
+        //Set imageResource decided by rainfall status
         RainfallData.WeatherElement element = mRainfallList.get(position).getWeatherElement();
         double hour_24 = element.getHour_24();
         double rain = element.getRain();
@@ -148,7 +149,6 @@ public class RainfallAdapter extends RecyclerView.Adapter<RainfallAdapter.ViewHo
                 }
             }
         } else if (hour_24 > 50 && rain <= 15 && hour_24 <= 130) {
-            //之後改成半滴
             holder.rainfallStatus.setImageResource(R.drawable.water_drop_0);
         } else if (hour_24 > 50 && rain > 15 && hour_24 <= 130) {
             holder.rainfallStatus.setImageResource(R.drawable.water_drop_1);

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -23,12 +24,20 @@ import android.widget.SeekBar;
 
 import com.cauliflower.danielt.govopendata.R;
 import com.cauliflower.danielt.govopendata.utilities.NetworkUtils;
-
-public class MainActivity extends Activity {
+/**
+ * User can browse website and set filter to query rainfall data.
+ * */
+public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final String GOV_DATA_URL = "https://data.gov.tw/dataset/9177";
+    //Two extra send to DisplayRainfallActivity
+    public static final String EXTRA_LOCATION_NAME = "locationName";
+    public static final String EXTRA_LIMIT = "limit";
+    //To decide locationName to query
     private EditText mEdLocationName;
+    //To decide limit to query
     private SeekBar mSkBarLimit;
+    //Show progress of mSkBarLimit
     private EditText edLimit;
     private WebView mWebViewRainfall;
     private ProgressBar pgBarLoading;
@@ -73,14 +82,16 @@ public class MainActivity extends Activity {
         webSettings.setJavaScriptEnabled(true);
         webSettings.setDisplayZoomControls(true);
 
-        //在同一個開啟新頁面
+        //在同一個 webView 開啟新頁面
         mWebViewRainfall.setWebViewClient(new WebViewClient() {
+            //新頁面開啟時顯示提示載入中
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 pgBarLoading.setVisibility(View.VISIBLE);
                 super.onPageStarted(view, url, favicon);
             }
 
+            //新頁面完成時停止提示載入中
             @Override
             public void onPageFinished(WebView view, String url) {
                 pgBarLoading.setVisibility(View.INVISIBLE);
@@ -89,6 +100,8 @@ public class MainActivity extends Activity {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                //使用同一個 WebView 載入 WebResourceRequest,如此一來，點選其他連結時，
+                // 將不會要求使用者選擇其他工具開啟連結
                 view.loadUrl(request.getUrl().toString());
                 return false;
             }
@@ -136,6 +149,10 @@ public class MainActivity extends Activity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 edLimit.setText(String.valueOf(seekBar.getProgress()));
+                //Set min of mSkBarLimit for app target API 25 and below
+                if (seekBar.getProgress() == 0) {
+                    seekBar.setProgress(NetworkUtils.LIMIT_MIN);
+                }
             }
         });
 
@@ -145,8 +162,8 @@ public class MainActivity extends Activity {
                 String locationName = mEdLocationName.getText().toString().trim();
                 String limit = edLimit.getText().toString();
                 Intent intent = new Intent(MainActivity.this, DisplayRainfallActivity.class);
-                intent.putExtra("locationName", locationName);
-                intent.putExtra("limit", limit);
+                intent.putExtra(EXTRA_LOCATION_NAME, locationName);
+                intent.putExtra(EXTRA_LIMIT, limit);
                 startActivity(intent);
             }
         });
